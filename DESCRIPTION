@@ -10,3 +10,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.0
+Depends: R (>= 3.5.1)
+Imports: 
+    stats,
+    pracma

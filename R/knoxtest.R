@@ -19,16 +19,18 @@
 #' res1 = knoxtest(g,t,delta=50,gamma=30,B=999)
 #' res1 = knoxtest(g,t,delta_ratio=0.1,gamma_ratio=0.02,B=999)
 #' @export
+#' @importFrom pracma randperm
+#' @importFrom stats dist
 
 knoxtest = function(geo, time, delta = NULL, gamma = NULL,
                     delta_ratio, gamma_ratio, B){
 
-  loc_dist = dist(geo)
+  loc_dist = stats::dist(geo)
   if(is.null(delta)){
     delta = sort(loc_dist)[round(length(loc_dist)*delta_ratio)]
   }
 
-  time_dist = dist(time)
+  time_dist = stats::dist(time)
   if(is.null(gamma)){
     gamma = sort(time_dist)[round(length(time_dist)*gamma_ratio)]
   }
