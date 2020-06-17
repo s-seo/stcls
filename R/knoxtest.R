@@ -34,7 +34,7 @@ knoxtest <- function(geo, time, delta = NULL, gamma = NULL,
 
   T_knox_obs = sum((loc_dist < delta) * (time_dist < gamma))/2
 
-  T_know = c()
+  T_knox = c()
   for(i in 1:B){
     time_rpm = pracma::randperm(time, length(time))
     time_dist = dist(time_rpm)
