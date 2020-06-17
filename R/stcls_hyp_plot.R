@@ -22,6 +22,7 @@
 #' @importFrom ggplot2 geom_histogram
 #' @importFrom ggplot2 theme_minimal
 #' @importFrom ggplot2 ggtitle
+#' @importFrom ggplot2 aes
 #' @importFrom ggplot2 annotate
 #' @importFrom ggplot2 geom_vline
 #' @importFrom gridExtra grid.arrange
