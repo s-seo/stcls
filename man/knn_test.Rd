@@ -16,7 +16,7 @@ knn_test(geo, time, B, K)
 \item{K}{the number of k nearest neightbors}
 }
 \value{
-A B*2 dataframe composed of two test statistics D_k, lambda_D_k.
+A list composed of a B*2 matrix of two test statistics D_k, lambda_D_k, observed test statistics, p-value of cumulative test statistic and p-value of k-specific test statistic
 }
 \description{
 Spatiotemporal k Nearest Neighbors Test with Monte Carlo permutation test
