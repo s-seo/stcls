@@ -8,12 +8,9 @@
 #' @param K the number of k nearest neightbors
 #' @return A B*2 dataframe composed of two test statistics D_k, lambda_D_k.
 #' @examples
-#' library(surveillance)
-#' data("imdepi")
-#' imdepiB <- subset(imdepi, type == "B")
-#' g = coordinates(imdepiB$events)
-#' t = imdepiB$events$time
-#' res = knntest(g,t,B=999,K=5)
+#' geo <- matrix(rnorm(1000 * 2), 1000, 2)
+#' time <- rexp(1000)
+#' res = knntest(geo,time,B=999,K=5)
 #' @export
 
 knn_test = function(geo, time, B, K){

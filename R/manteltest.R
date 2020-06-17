@@ -7,24 +7,22 @@
 #' @param B Number of permutations for Monte Carlo permutation test
 #' @return A list of randomized Mantel test statistic, observed Mantel text statistic, p value from Monte Carlo permutation test
 #' @examples
-#' library(surveillance)
-#' data("imdepi")
-#' imdepiB <- subset(imdepi, type == "B")
-#' g = coordinates(imdepiB$events)
-#' t = imdepiB$events$time
-#' res1 = manteltest(g,t,999)
+#' geo <- matrix(rnorm(1000 * 2), 1000, 2)
+#' time <- rexp(1000)
+#' res1 = manteltest(geo,time,999)
 #' @export
 #' @importFrom pracma randperm
 #' @importFrom stats dist
+#' @importFrom stats sd
 
 manteltest <- function(geo, time, B){
   N = nrow(geo)
 
   loc_dist = stats::dist(geo)
-  loc_scale = (loc_dist - mean(loc_dist)) / sd(loc_dist)
+  loc_scale = (loc_dist - mean(loc_dist)) / stats::sd(loc_dist)
 
-  time_dist = dist(imdepiB$events$time)
-  time_scale = (time_dist - mean(time_dist)) / sd(time_dist)
+  time_dist = dist(time)
+  time_scale = (time_dist - mean(time_dist)) / stats::sd(time_dist)
   T_mantel_obs = sum(loc_scale * time_scale) / (N^2 - N -1)
 
   T_mantel = c()

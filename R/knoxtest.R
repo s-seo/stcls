@@ -11,13 +11,10 @@
 #' @param B Number of permutations for Monte Carlo permutation test
 #' @return A list of randomized knox test statistic, observed knox text statistic, p value from Monte Carlo permutation test
 #' @examples
-#' library(surveillance)
-#' data("imdepi")
-#' imdepiB <- subset(imdepi, type == "B")
-#' g = coordinates(imdepiB$events)
-#' t = imdepiB$events$time
-#' res1 = knoxtest(g,t,delta=50,gamma=30,B=999)
-#' res1 = knoxtest(g,t,delta_ratio=0.1,gamma_ratio=0.02,B=999)
+#' geo <- matrix(rnorm(1000 * 2), 1000, 2)
+#' time <- rexp(1000)
+#' res1 = knoxtest(geo,time,delta=50,gamma=30,B=999)
+#' res1 = knoxtest(geo,time,delta_ratio=0.1,gamma_ratio=0.02,B=999)
 #' @export
 #' @importFrom pracma randperm
 #' @importFrom stats dist

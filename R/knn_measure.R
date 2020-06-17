@@ -8,13 +8,10 @@
 #' @param loc A logical value. If true, return distance stastistic. Otherwise, return time statistic. (default TRUE)
 #' @return Matrix d_ij or t_ij
 #' @examples
-#' library(surveillance)
-#' data("imdepi")
-#' imdepiB <- subset(imdepi, type == "B")
-#' g = coordinates(imdepiB$events)
-#' t = imdepiB$events$time
-#' knn_d = knn_measure(g,t,k=5)
-#' knn_t = knn_measure(g,t,k=5,loc=FALSE)
+#' geo <- matrix(rnorm(1000 * 2), 1000, 2)
+#' time <- rexp(1000)
+#' knn_d = knn_measure(geo,time,k=5)
+#' knn_t = knn_measure(geo,time,k=5,loc=FALSE)
 #' @export
 #' @importFrom stats dist
 
