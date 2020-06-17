@@ -1,6 +1,6 @@
 #' Knox test
 #'
-#' Knox test with Monte Carlo method
+#' Knox test with Monte Carlo permutation test
 #'
 #' @param geo A dataframe with two columns containing geographic(coordinates) data.
 #' @param time A vector containing time data
@@ -22,7 +22,7 @@
 #' @importFrom pracma randperm
 #' @importFrom stats dist
 
-knoxtest = function(geo, time, delta = NULL, gamma = NULL,
+knoxtest <- function(geo, time, delta = NULL, gamma = NULL,
                     delta_ratio, gamma_ratio, B){
 
   loc_dist = stats::dist(geo)
