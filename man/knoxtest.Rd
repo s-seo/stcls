@@ -25,7 +25,7 @@ knoxtest(geo, time, delta = NULL, gamma = NULL, delta_ratio, gamma_ratio, B)
 A list of randomized knox test statistic, observed knox text statistic, p value from Monte Carlo permutation test
 }
 \description{
-Knox test with Monte Carlo method
+Knox test with Monte Carlo permutation test
 }
 \examples{
 library(surveillance)
