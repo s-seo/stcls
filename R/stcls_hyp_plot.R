@@ -68,7 +68,7 @@ stcls_hyp_plot <- function(geo, time, delta = NULL, gamma = NULL, delta_ratio, g
     ggplot(., aes(x=X)) +
     geom_histogram(binwidth = diff(range(res_knn[[1]][,2]))/15, fill="lightblue", colour="black")+
     theme_minimal()+
-    ggtitle('KNN test with k– specific test statistic')+
+    ggtitle('KNN test with k_specific test statistic')+
     annotate('text', x=-Inf, y=Inf, label=paste0('p-value : ',round(res_knn[[4]],3)),
              hjust=-.2, vjust=2)+
     geom_vline(xintercept = res_knn[[2]][2], size =2, col='red')+
