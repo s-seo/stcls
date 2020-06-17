@@ -20,10 +20,7 @@ A list of randomized Mantel test statistic, observed Mantel text statistic, p va
 Mantel test with Monte Carlo permutation test
 }
 \examples{
-library(surveillance)
-data("imdepi")
-imdepiB <- subset(imdepi, type == "B")
-g = coordinates(imdepiB$events)
-t = imdepiB$events$time
-res1 = manteltest(g,t,999)
+geo <- matrix(rnorm(1000 * 2), 1000, 2)
+time <- rexp(1000)
+res1 = manteltest(geo,time,999)
 }

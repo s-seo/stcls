@@ -20,10 +20,7 @@ A vector of test statistics c(D_k, lambda_D_k)
 Calculate cumulative test statistic and k– specific test statistic of spatiotemporal k Nearest Neighbors Test.
 }
 \examples{
-library(surveillance)
-data("imdepi")
-imdepiB <- subset(imdepi, type == "B")
-g = coordinates(imdepiB$events)
-t = imdepiB$events$time
-res = knn_test_stat(g,t,K=5)
+geo <- matrix(rnorm(1000 * 2), 1000, 2)
+time <- rexp(1000)
+res = knn_test_stat(geo,time,K=5)
 }

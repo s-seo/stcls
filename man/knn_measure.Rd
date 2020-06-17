@@ -22,11 +22,8 @@ Matrix d_ij or t_ij
 Calculate d_ij and t_ij. d_ij = 1 when case j is a k nearest neighbor of case i in space, otherwise d_ij = 0. t_ij = 1 when case j is a k nearest neighbor of case i in time, otherwise t_ij = 0.
 }
 \examples{
-library(surveillance)
-data("imdepi")
-imdepiB <- subset(imdepi, type == "B")
-g = coordinates(imdepiB$events)
-t = imdepiB$events$time
-knn_d = knn_measure(g,t,k=5)
-knn_t = knn_measure(g,t,k=5,loc=FALSE)
+geo <- matrix(rnorm(1000 * 2), 1000, 2)
+time <- rexp(1000)
+knn_d = knn_measure(geo,time,k=5)
+knn_t = knn_measure(geo,time,k=5,loc=FALSE)
 }
