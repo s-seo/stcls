@@ -21,7 +21,7 @@ knn_test = function(geo, time, B, K){
     res[[1]][i,] = knn_test_stat(geo, time_rpm, K=K)
   }
 
-  res[[2]] = knn_kspec(geo, time, K=K)
+  res[[2]] = knn_test_stat(geo, time, K=K)
   res[[3]] = sum(res[[1]][,1] > res[[2]][1])/B
   res[[4]] = sum(res[[1]][,2] > res[[2]][2])/B
   return(res)
