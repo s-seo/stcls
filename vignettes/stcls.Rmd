@@ -1,0 +1,266 @@
+---
+title: "stcls"
+author: "Seungmin Seo" 
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{stcls}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+## Functions in stcls 
+
+### knoxtest
+
+A test to quantify a space and time interaction. The test statistic is
+
+$$K = \sum_{i=1}^N \sum_{j=1}^{i-1} d_{ij} t_{ij} $$
+
+where $N$ is the total number of data, $d_{ij}$ denotes space adjacency that 
+equal to 1 if $dist(i,j) < \alpha$, otherwise equal to 0. $t_{ij}$ denotes time 
+adjacenct that equal to 1 if $dist(i,j) < \beta$, otherwise equal to 0. 
+The Monte Carlo permutation method is used for the significant test of $K$.
+by fixing coordinate matrix and changing time vector with permutation.
+The biggest demerit of this method is critical space and time distances values 
+may be assigned subjectively. To alleviate this problem, two paramters are
+added `delta_ratio` and `gamma_ratio`.
+
+1. usage
+
+  > knoxtest(geo, time, delta = NULL, gamma = NULL, delta_ratio, gamma_ratio, B)
+
+2. parameters 
+
+  `geo` is a dataframe with two columns containing geographic(coordinates) data.
+  
+  `time` is a vector containing time data
+  
+  `delta` is a numeric value of critical space distances values
+  
+  `gamma` is a numeric value of critical time distances values
+  
+  `delta_ratio` is a scaler for assiging delta as (1-a)th percentile of space 
+  distances where a is delta_ratio
+  
+  `gamma_ratio` is a scaler for assiging gamma as (1-b)th percentile of time 
+  distances where b is gamma_ratio
+  
+  `B` is a number of permutations for Monte Carlo permutation test.
+
+3. return 
+
+  A list of randomized knox test statistic, observed knox text statistic, 
+  p value from Monte Carlo permutation test 
+
+4. example 
+
+```{r}
+library(stcls)
+geo <- matrix(rnorm(1000 * 2), 1000, 2)
+time <- rexp(1000)
+res1 = knoxtest(geo,time,delta=50,gamma=30,B=999)
+res2 = knoxtest(geo,time,delta_ratio=0.1,gamma_ratio=0.02,B=999)
+```
+
+
+
+### manteltest
+
+A test to quantify a space and time interaction that focused on the problem 
+of selecting the critical distances of Knox’s test. The test statistic is
+
+$$
+M = \frac{1}{N^2-N-1} \sum_{i=1}^N \sum_{j=1}^N \frac{\left( d_{ij}^s - \bar{d^s} \right)}{s_s} \frac{\left( d_{ij}^t - \bar{d^t} \right)}{s_t}
+$$
+
+where $d_{ij}^s, d_{ij}^t$ are the distance between $i$ and $j$ in space and 
+time respectively. $s_s, s_t$ are the standard deviations of data in space 
+and time, respectively. Mantel test solves multiple scale problem and 
+subjectivity problem of knox test.
+
+1. usage
+
+  > manteltest(geo, time, B)
+
+2. parameters 
+
+  `geo` is a dataframe with two columns containing geographic(coordinates) data.
+  
+  `time` is a vector containing time data
+  
+  `B` is a number of permutations for Monte Carlo permutation test.
+
+3. return 
+
+  A list of randomized Mantel test statistic, observed Mantel text statistic, 
+  p value from Monte Carlo permutation test 
+
+4. example 
+
+```{r}
+library(stcls)
+geo <- matrix(rnorm(1000 * 2), 1000, 2)
+time <- rexp(1000)
+res = manteltest(geo,time,B=999)
+```
+
+
+### knn_measure
+
+Calculate $d_ij$ and $t_ij$. $d_ij = 1$ when case $j$ is a $k$ nearest neighbor of 
+case $i$ in space, otherwise $d_ij = 0$. $t_ij = 1$ when case $j$ is a 
+k-nearest neighbor of case $i$ in time, otherwise $t_ij = 0$.
+
+1. usage
+
+  > knn_measure(geo, time, k, loc = T)
+
+2. parameters 
+
+  `geo` is a dataframe with two columns containing geographic(coordinates) data.
+  
+  `time` is a vector containing time data
+
+  `k` the number of k nearest neightbors
+  
+  `loc` A logical value. If true, return distance stastistic. Otherwise, 
+  return time statistic. (default TRUE)
+
+3. return 
+
+  Matrix $d_ij$ or $t_ij$.
+
+4. example 
+
+```{r}
+library(stcls)
+geo <- matrix(rnorm(1000 * 2), 1000, 2)
+time <- rexp(1000)
+knn_d = knn_measure(geo,time,k=5)
+knn_t = knn_measure(geo,time,k=5,loc=FALSE)
+```
+
+
+### knn_test_stat
+
+Calculate cumulative test statistic and k specific test statistic of 
+spatiotemporal k Nearest Neighbors Test. Each test statistics is 
+$$D_k = \sum_{i=1}^N \sum_{j=1}^N d_{ij} t_{ij}$$
+$$\Delta D_k = D_k - D{k-1}$$
+
+1. usage
+
+  > knn_test_stat(geo, time, K)
+
+2. parameters 
+
+  `geo` is a dataframe with two columns containing geographic(coordinates) data.
+  
+  `time` is a vector containing time data
+
+  `k` the number of k nearest neightbors
+  
+3. return 
+
+  A vector of test statistics $D_k, lambda_D_k$.
+
+4. example 
+
+```{r}
+library(stcls)
+geo <- matrix(rnorm(1000 * 2), 1000, 2)
+time <- rexp(1000)
+res = knn_test_stat(geo,time,K=5)
+```
+
+
+### knn_test
+
+Spatiotemporal k Nearest Neighbors Test with Monte Carlo permutation test.
+$D_k$ depends on $k$ while $\Delta D_k$ is independent because it only contained
+specific k nearest neighbors. The null hypothesis is that the distribution of 
+events is independent from each other in space and time. The demerit of this 
+method is that the $k$ value could result in different test results.
+
+1. usage
+
+  > knn_test(geo, time, B, K)
+
+2. parameters 
+
+  `geo` is a dataframe with two columns containing geographic(coordinates) data.
+  
+  `time` is a vector containing time data
+
+  `B` Number of permutations for Monte Carlo permutation test
+
+  `K` the number of k nearest neightbors
+  
+3. return 
+
+  A list composed of a B*2 matrix of two test statistics $D_k, lambda_D_k$, 
+  bserved test statistics, p-value of cumulative test statistic and 
+  p-value of k-specific test statistic.
+
+4. example 
+
+```{r}
+library(stcls)
+geo <- matrix(rnorm(1000 * 2), 1000, 2)
+time <- rexp(1000)
+res = knn_test(geo,time,B=999,K=5)
+```
+
+
+
+### stcls_hyp_plot
+
+Compare the hypothesis testing-based clustering methods of the events spatio-temporal data type by histograms with p-value of Monte Carlo permutation test
+
+1. usage
+
+  > knn_test(geo, time, B, K)
+
+2. parameters 
+
+  `geo` is a dataframe with two columns containing geographic(coordinates) data.
+  
+  `time` is a vector containing time data
+
+  `delta` is a numeric value of critical space distances values
+  
+  `gamma` is a numeric value of critical time distances values
+  
+  `delta_ratio` is a scaler for assiging delta as (1-a)th percentile of space 
+  distances where a is delta_ratio
+  
+  `gamma_ratio` is a scaler for assiging gamma as (1-b)th percentile of time 
+  distances where b is gamma_ratio
+  
+  `B` Number of permutations for Monte Carlo permutation test
+
+  `K` the number of k nearest neightbors
+
+3. return 
+
+  4 histograms of know test, mantel test, knn test with cumulative test 
+  statistic, knn test with k-specific test statistic with p-value of Monte 
+  Carlo permutation test respectively.
+
+4. example 
+
+```{r}
+library(stcls)
+geo <- matrix(rnorm(1000 * 2), 1000, 2)
+time <- rexp(1000)
+stcls_hyp_plot(geo, time, delta=50, gamma=30, B=50,K=5)
+stcls_hyp_plot(geo, time, delta_ratio = 0.1, gamma_ratio = 0.02, B=50,K=5)
+```
+

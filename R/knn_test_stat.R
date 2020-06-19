@@ -1,6 +1,6 @@
 #' KNN test statistics
 #'
-#' Calculate cumulative test statistic and k– specific test statistic of spatiotemporal k Nearest Neighbors Test.
+#' Calculate cumulative test statistic and k specific test statistic of spatiotemporal k Nearest Neighbors Test.
 #'
 #' @param geo A dataframe with two columns containing geographic(coordinates) data.
 #' @param time A vector containing time data
