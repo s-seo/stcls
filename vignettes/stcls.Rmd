@@ -260,7 +260,7 @@ Compare the hypothesis testing-based clustering methods of the events spatio-tem
 library(stcls)
 geo <- matrix(rnorm(1000 * 2), 1000, 2)
 time <- rexp(1000)
-stcls_hyp_plot(geo, time, delta=50, gamma=30, B=50,K=5)
-stcls_hyp_plot(geo, time, delta_ratio = 0.1, gamma_ratio = 0.02, B=50,K=5)
+stcls_hyp_plot(geo, time, delta=50, gamma=30, B=10,K=5)
+stcls_hyp_plot(geo, time, delta_ratio = 0.1, gamma_ratio = 0.02, B=10,K=5)
 ```
 
